@@ -1,0 +1,15 @@
+Individual Pair Results - First 3 pairs from 21_pairs_tno Dataset
+============================================================
+
+Pair  1:
+  EN: 6.8741
+  SD: 73.0282
+
+Pair  2:
+  EN: 6.1101
+  SD: 73.0827
+
+Pair  3:
+  EN: 6.1260
+  SD: 74.7115
+
