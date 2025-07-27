@@ -1,0 +1,8 @@
+Fusion Evaluation Results
+========================================
+EN: 6.9490
+SD: 59.4715
+MI: 2.9799
+FMI_dct: 0.5961
+FMI_pixel: 1.7563
+SCD: 0.0539

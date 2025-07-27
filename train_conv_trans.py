@@ -68,8 +68,8 @@ def load_data(path, train_num):
 # -------------------------------------------------------
 def test(model_auto_ir, model_auto_vi, model, shift_flag, e):
 	img_flag = False
-	test_path_ir = './images/21_pairs_tno/ir'
-	test_path_vi = './images/21_pairs_tno/vis'
+	test_path_ir = './images/test_pair/ir'
+	test_path_vi = './images/test_pair/vis'
 	ir_pathes, ir_names = utils.list_images_test(test_path_ir)
 	# ---------------------------------------------------
 	output_path1 = './output/transfuse'
