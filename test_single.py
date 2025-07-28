@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-CPU-Only test script for CrossFuse - Test a single IR/Visible pair
+CPU-Only test script for CrossFuse - Test all 21 IR/Visible pairs from 21_pairs_tno dataset
 Works on macOS without CUDA
 """
 
@@ -68,16 +68,10 @@ def load_models_cpu():
     print("✅ All models loaded successfully on CPU!")
     return model_auto_ir, model_auto_vi, model_trans
 
-def test_single_pair_cpu(ir_image_path, vi_image_path, output_path="./test_output"):
+def test_single_pair_cpu(ir_image_path, vi_image_path, output_filename):
     """Test fusion on a single pair using CPU only"""
     
-    # Create output directory
-    os.makedirs(output_path, exist_ok=True)
-    
-    # Load models
-    model_auto_ir, model_auto_vi, model_trans = load_models_cpu()
-    
-    print(f"📷 Loading images:")
+    print(f"📷 Processing:")
     print(f"   IR: {ir_image_path}")
     print(f"   Visible: {vi_image_path}")
     
@@ -108,21 +102,72 @@ def test_single_pair_cpu(ir_image_path, vi_image_path, output_path="./test_outpu
         fused_img = outputs['out']
     
     # Save result
-    output_filename = os.path.join(output_path, "fused_result.png")
     utils.save_image(fused_img, output_filename)
+    print(f"✅ Saved: {output_filename}")
     
-    print(f"✅ Fusion complete! Result saved to: {output_filename}")
     return output_filename
 
+def test_all_21_pairs_cpu():
+    """Test fusion on all 21 pairs from the 21_pairs_tno dataset"""
+    
+    # Dataset paths
+    ir_dir = "./images/21_pairs_tno/ir"
+    vis_dir = "./images/21_pairs_tno/vis"
+    output_dir = "./test_output/crossfuse_test/21_pairs_tno_transfuse_cpu"
+    
+    # Create output directory
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Load models once for all pairs
+    global model_auto_ir, model_auto_vi, model_trans
+    model_auto_ir, model_auto_vi, model_trans = load_models_cpu()
+    
+    print(f"\n🚀 Starting fusion for all 21 pairs from 21_pairs_tno dataset...")
+    print("="*70)
+    
+    successful_pairs = []
+    failed_pairs = []
+    
+    # Process all 21 pairs
+    for pair_id in range(1, 22):  # 1 to 21
+        print(f"\n📊 Processing pair {pair_id}/21...")
+        
+        # Construct file paths
+        ir_path = os.path.join(ir_dir, f"IR{pair_id}.png")
+        vis_path = os.path.join(vis_dir, f"VIS{pair_id}.png")
+        output_filename = os.path.join(output_dir, f"results_transfuse_IR{pair_id}.png")
+        
+        try:
+            result = test_single_pair_cpu(ir_path, vis_path, output_filename)
+            if result:
+                successful_pairs.append(pair_id)
+                print(f"   ✅ Pair {pair_id} completed successfully")
+            else:
+                failed_pairs.append(pair_id)
+                print(f"   ❌ Pair {pair_id} failed")
+        except Exception as e:
+            print(f"   ❌ Error processing pair {pair_id}: {e}")
+            failed_pairs.append(pair_id)
+    
+    # Print summary
+    print("\n" + "="*70)
+    print("📊 FUSION RESULTS SUMMARY")
+    print("="*70)
+    print(f"✅ Successfully processed: {len(successful_pairs)}/21 pairs")
+    
+    if failed_pairs:
+        print(f"❌ Failed pairs: {failed_pairs}")
+    
+    print(f"\n📁 All fused images saved in: {output_dir}")
+    print(f"🎯 Ready for evaluation using evaluate_21pairs_tno.py")
+    
+    return successful_pairs, failed_pairs
+
 if __name__ == "__main__":
-    # Test with your KAIST dataset images
-    ir_path = "./kaist_dataset/kaist_train/set00/V000/lwir/I00001.jpg"
-    vi_path = "./kaist_dataset/kaist_train/set00/V000/visible/I00001.jpg"
+    print("🚀 Starting CPU-only fusion test for all 21 pairs...")
+    successful, failed = test_all_21_pairs_cpu()
     
-    print("🚀 Starting CPU-only fusion test...")
-    result = test_single_pair_cpu(ir_path, vi_path)
-    
-    if result:
-        print(f"🎯 Success! Check your fused image: {result}")
+    if len(successful) == 21:
+        print(f"\n🎉 Perfect! All 21 pairs processed successfully!")
     else:
-        print("❌ Test failed. Check image paths.")
+        print(f"\n⚠️  Completed {len(successful)}/21 pairs. Check failed pairs: {failed}")

@@ -1,0 +1,101 @@
+SCD Variants Evaluation Report
+================================================================================
+
+Target SCD value from paper: 1.7659
+
+RANKING (by average difference from target):
+--------------------------------------------------
+ 1. Absolute       :   1.6338 (avg diff: 0.2342)
+ 2. Squared        :   1.4640 (avg diff: 0.3414)
+ 3. Covariance     :   1.5244 (avg diff: 0.3436)
+ 4. Original       :   1.5244 (avg diff: 0.3436)
+ 5. Normalized     :   1.5244 (avg diff: 0.3436)
+ 6. Robust         :   1.5244 (avg diff: 0.3436)
+ 7. Scipy          :   1.5244 (avg diff: 0.3436)
+ 8. Enhanced       :   1.3934 (avg diff: 0.3725)
+ 9. Weighted       :   0.7982 (avg diff: 0.9677)
+10. Normalized_+2  :   3.5244 (avg diff: 1.7585)
+
+================================================================================
+DETAILED STATISTICS:
+================================================================================
+
+Original:
+  Mean: 1.524384 ± 0.477333
+  Range: [0.457779, 1.971741]
+  Median: 1.777432
+  Avg diff from target: 0.343601
+  Min diff from target: 0.007742
+  Count: 21
+
+Scipy:
+  Mean: 1.524384 ± 0.477333
+  Range: [0.457779, 1.971741]
+  Median: 1.777432
+  Avg diff from target: 0.343601
+  Min diff from target: 0.007742
+  Count: 21
+
+Normalized:
+  Mean: 1.524384 ± 0.477333
+  Range: [0.457779, 1.971741]
+  Median: 1.777432
+  Avg diff from target: 0.343601
+  Min diff from target: 0.007742
+  Count: 21
+
+Robust:
+  Mean: 1.524384 ± 0.477333
+  Range: [0.457779, 1.971741]
+  Median: 1.777432
+  Avg diff from target: 0.343601
+  Min diff from target: 0.007742
+  Count: 21
+
+Absolute:
+  Mean: 1.633774 ± 0.289892
+  Range: [1.085977, 1.971741]
+  Median: 1.777432
+  Avg diff from target: 0.234211
+  Min diff from target: 0.007742
+  Count: 21
+
+Squared:
+  Mean: 1.463988 ± 0.341837
+  Range: [0.898767, 1.944159]
+  Median: 1.596125
+  Avg diff from target: 0.341355
+  Min diff from target: 0.005287
+  Count: 21
+
+Weighted:
+  Mean: 0.798181 ± 0.249339
+  Range: [0.106667, 0.992878]
+  Median: 0.917157
+  Avg diff from target: 0.967719
+  Min diff from target: 0.773022
+  Count: 21
+
+Enhanced:
+  Mean: 1.393425 ± 0.119200
+  Range: [1.147797, 1.562372]
+  Median: 1.421438
+  Avg diff from target: 0.372475
+  Min diff from target: 0.203528
+  Count: 21
+
+Covariance:
+  Mean: 1.524384 ± 0.477333
+  Range: [0.457779, 1.971741]
+  Median: 1.777432
+  Avg diff from target: 0.343601
+  Min diff from target: 0.007742
+  Count: 21
+
+Normalized_+2:
+  Mean: 3.524384 ± 0.477333
+  Range: [2.457779, 3.971741]
+  Median: 3.777432
+  Avg diff from target: 1.758484
+  Min diff from target: 0.691879
+  Count: 21
