@@ -129,6 +129,11 @@ class Attention(nn.Module):
         
         self.qkv = nn.Linear(dim, dim * 3, bias=qkv_bias)
         self.cross = cross
+        
+        # Add learnable temperature parameter for cross-attention
+        if cross:
+            # Initialize temperature to 1.0 (same as original)
+            self.temperature = nn.Parameter(torch.ones(1))
         if cross:
             self.q_linear = nn.Linear(dim, dim, bias=qkv_bias)
             self.k_linear = nn.Linear(dim, dim, bias=qkv_bias)
@@ -171,9 +176,12 @@ class Attention(nn.Module):
             # dp_s = dp.softmax(dim=-1)
             # vision_features(dp_s, 'atten', 'dp_'+str(t_str))
             dp = -1 * dp
+            # Apply learnable temperature to cross-attention re-softmax
+            attn = (dp / self.temperature).softmax(dim=-1)  # (n_samples, n_heads, n_patches, n_patches)
             # attn = dp.softmax(dim=-1)
             # vision_features(attn, 'atten', 'dp_v_'+str(t_str))
-        attn = dp.softmax(dim=-1)  # (n_samples, n_heads, n_patches, n_patches)
+        else:
+            attn = dp.softmax(dim=-1)  # Regular softmax for self-attention
         attn = self.attn_drop(attn)
 
         weighted_avg = attn @ v  # (n_samples, n_heads, n_patches +1, head_dim)
