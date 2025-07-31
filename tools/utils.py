@@ -77,11 +77,41 @@ def list_images_test(directory):
 
 
 def adjust_learning_rate(optimizer, epoch, lr):
-    """Sets the learning rate to the initial LR decayed by 10 every 4 epochs"""
-    # lr *= (0.1 ** (epoch // 2))
-    if epoch-1 > 0:
-        lr *= 0.1
+    """Sets the learning rate with reasonable step decay every 10 epochs"""
+    # Reasonable step decay: reduce by 50% every 10 epochs
+    if epoch > 0 and epoch % 10 == 0:
+        lr *= 0.5
+    
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    return lr
 
+
+def cosine_annealing_lr(optimizer, epoch, base_lr, total_epochs, min_lr=1e-6):
+    """
+    Cosine annealing learning rate schedule (modern approach)
+    Smoothly decreases learning rate following cosine curve
+    """
+    lr = min_lr + (base_lr - min_lr) * 0.5 * (1 + math.cos(math.pi * epoch / total_epochs))
+    
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    return lr
+
+
+def warmup_cosine_lr(optimizer, epoch, base_lr, total_epochs, warmup_epochs=5, min_lr=1e-6):
+    """
+    Warmup + Cosine annealing schedule (best for transformers)
+    Linear warmup for first few epochs, then cosine decay
+    """
+    if epoch < warmup_epochs:
+        # Linear warmup
+        lr = base_lr * (epoch + 1) / warmup_epochs
+    else:
+        # Cosine decay after warmup
+        progress = (epoch - warmup_epochs) / (total_epochs - warmup_epochs)
+        lr = min_lr + (base_lr - min_lr) * 0.5 * (1 + math.cos(math.pi * progress))
+    
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return lr

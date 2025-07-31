@@ -89,7 +89,8 @@ def train(data, img_flag):
 	model.train()
 	count = 0
 	for e in range(args.epochs):
-		lr_cur = utils.adjust_learning_rate(optimizer, e, args.lr)
+		# Use modern cosine annealing schedule instead of aggressive step decay
+		lr_cur = utils.cosine_annealing_lr(optimizer, e, args.lr, args.epochs, min_lr=1e-6)
 		img_paths, batch_num = utils.load_dataset(data, batch_size)
 		
 		for idx in range(batch_num):
