@@ -164,6 +164,7 @@ def train(data, img_flag):
 	loss_p8 = 0.
 	loss_p9 = 0.
 	loss_p10 = 0.
+	loss_p11 = 0.  # SSIM loss
 	loss_all = 0.
 	
 	loss_mat = []
@@ -212,6 +213,7 @@ def train(data, img_flag):
 			loss_p8 += outputs['fea_loss']
 			loss_p9 += outputs['gra_loss']
 			loss_p10 += outputs['mean_loss']
+			loss_p11 += outputs['ssim_loss']
 			loss_all += total_loss
 			
 			# # Test
@@ -228,15 +230,16 @@ def train(data, img_flag):
 				loss_p8 /= step
 				loss_p9 /= step
 				loss_p10 /= step
+				loss_p11 /= step
 				loss_all /= step
 				# if e == 0 and count == step:
 				# 	viz.line([loss_all.item()], [0.], win='train_loss', opts=dict(title='Total Loss'))
 				
 				mesg = "{} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
 				       " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
-				       "deep loss: {:.6f} - fea loss: {:.6f} \t total loss: {:.6f} \n". \
+				       "deep loss: {:.6f} - fea loss: {:.6f} - ssim loss: {:.6f} \t total loss: {:.6f} \n". \
 					format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur,
-				           loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_all)
+				           loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_p11, loss_all)
 				
 				# viz.line([loss_all.item()], [count], win='train_loss', update='append')
 				img_or1 = torch.cat((batch_ir[0, :, :, :], batch_vi[0, :, :, :]), 0)
@@ -266,6 +269,7 @@ def train(data, img_flag):
 				loss_p8 = 0.
 				loss_p9 = 0.
 				loss_p10 = 0.
+				loss_p11 = 0.
 				loss_all = 0.
 		
 		# with torch.no_grad():
