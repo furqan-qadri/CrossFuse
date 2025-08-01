@@ -10,7 +10,7 @@ class Args():
 	path_ir = ['G:/datasets/Image-fusion/KAIST/lwir/']
 	path_ir = ['/Users/furqanqadri/Coding/CrossFuse/kaist_dataset/kaist_train/set00/V000/lwir/']
 	# path_ir = ['/data/Disk_B/KAIST-RGBIR/lwir/']
-	cuda = False
+	cuda = True  # 🔥 PERFORMANCE FIX: Enable GPU for multi-head temperature
 	lr = 0.001
 	epochs = 32
 	batch = 8

@@ -236,19 +236,38 @@ def train(data, img_flag):
 			# if e == 0 and count == step:
 			# 	viz.line([loss_all.item()], [0.], win='train_loss', opts=dict(title='Total Loss'))
 			
-			# Collect learnable temperature values from cross-attention modules
-			temp_values = []
-			for module in model.modules():
-				if hasattr(module, 'temperature') and hasattr(module, 'cross') and module.cross:
-					temp_values.append(module.temperature.item())
+					# 🔥 Collect ALL learnable temperatures (single + multi-head)
+		temp_values = []
+		multi_head_temps = []
+		
+		for module in model.modules():
+			if hasattr(module, 'temperature') and hasattr(module, 'cross') and module.cross:
+				# Single temperature (legacy)
+				temp_values.append(module.temperature.item())
+			elif hasattr(module, 'temperatures') and hasattr(module, 'cross') and module.cross:
+				# 🔥 Multi-head temperatures
+				temps = module.temperatures.data.cpu().numpy()
+				multi_head_temps.extend(temps)
+				temp_values.extend(temps)
+		
+		avg_temp = sum(temp_values) / len(temp_values) if temp_values else 1.0
+		
+		# 🔥 Log multi-head specialization every 5 print steps
+		if multi_head_temps and count % (step * 5) == 0:
+			print(f"\n🔥 Multi-Head Temperature Specialization:")
+			for i, temp in enumerate(multi_head_temps[:16]):  # First 16 heads
+				if temp < 0.7:
+					print(f"   Head {i:2d}: SHARP focus (temp={temp:.3f}) - Detail specialist")
+				elif temp > 1.3:
+					print(f"   Head {i:2d}: BROAD focus (temp={temp:.3f}) - Global specialist")
+				else:
+					print(f"   Head {i:2d}: Balanced focus (temp={temp:.3f}) - General fusion")
 			
-			avg_temp = sum(temp_values) / len(temp_values) if temp_values else 1.0
-			
-			mesg = "{} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - temp:{:.4f} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
+			mesg = "🔄 2-Stage - {} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - avg_temp:{:.4f} - heads:{} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
        " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
        "deep loss: {:.6f} - fea loss: {:.6f} - ssim loss: {:.6f} \t total loss: {:.6f} \n". \
-    format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur, avg_temp,
-           loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_p11, loss_all)
+    			format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur, avg_temp, len(multi_head_temps),
+			       loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_p11, loss_all)
 
 			# viz.line([loss_all.item()], [count], win='train_loss', update='append')
 			img_or1 = torch.cat((batch_ir[0], batch_vi[0]), dim=0)
