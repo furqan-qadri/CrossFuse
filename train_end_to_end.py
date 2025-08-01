@@ -2,10 +2,10 @@
 # @Author: Li Hui, Jiangnan University
 # @Email: lihui.cv@jiangnan.edu.cn
 # @Project : FuseTrans
-# @File : train.py
+# @File : train_end_to_end.py
 # @Time : 2021/5/14 14:42
 
-# Train fusion models (CAM and decoder)
+# Train END-TO-END: Auto-encoders + fusion models (CAM and decoder) together
 
 import os
 import scipy.io as scio
@@ -22,7 +22,7 @@ from network.net_conv_trans import Trans_FuseNet
 from network.net_autoencoder import Auto_Encoder_single
 from network.loss import Gradient_loss, Order_loss, Patch_loss
 
-from args_trans import Args as args
+from args_end_to_end import Args as args
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # -------------------------------------------------------
@@ -72,7 +72,7 @@ def test(model_auto_ir, model_auto_vi, model, shift_flag, e):
 	test_path_vi = './images/test_pair/vis'
 	ir_pathes, ir_names = utils.list_images_test(test_path_ir)
 	# ---------------------------------------------------
-	output_path1 = './output/transfuse'
+	output_path1 = './output/end_to_end'
 	if os.path.exists(output_path1) is False:
 		os.mkdir(output_path1)
 	output_path = output_path1 + '/training_21_tno_epoch_' + str(e)
@@ -98,7 +98,7 @@ def test(model_auto_ir, model_auto_vi, model, shift_flag, e):
 		outputs = model(ir_de, ir_sh, vi_de, vi_sh, shift_flag)
 		out = outputs['out']
 		# ---------------------------------------------
-		path_out_ir = output_path + '/results_transfuse_' + ir_name
+		path_out_ir = output_path + '/results_end_to_end_' + ir_name
 		utils.save_image(out, path_out_ir)
 
 
@@ -113,26 +113,37 @@ def train(data, img_flag):
 	if args.resume_model_trans is not None:
 		print('Resuming, initializing fusion net using weight from {}.'.format(args.resume_model_trans))
 		model.load_state_dict(torch.load(args.resume_model_trans))
-	# auto-encoder
+	
+	# auto-encoder - START FROM SCRATCH (no pre-trained loading)
 	model_auto_ir = Auto_Encoder_single(**custom_config_auto)
 	model_auto_vi = Auto_Encoder_single(**custom_config_auto)
 	# model_auto_ir = torch.nn.DataParallel(model_auto_ir_or, list(range(torch.cuda.device_count()))).cuda()
 	# model_auto_vi = torch.nn.DataParallel(model_auto_vi_or, list(range(torch.cuda.device_count()))).cuda()
 	
-	if args.resume_model_auto_ir is not None:
-		print('Resuming, initializing fusion net using weight from {}.'.format(args.resume_model_auto_ir))
-		model_auto_ir.load_state_dict(torch.load(args.resume_model_auto_ir))
-		model_auto_vi.load_state_dict(torch.load(args.resume_model_auto_vi))
+	# END-TO-END TRAINING: No pre-trained encoder loading!
+	print("🚀 END-TO-END Training: Starting with randomly initialized encoders")
+	print("   All components (IR enc + VIS enc + CAM + decoder) will train together")
 	
 	# ------------------------------------------------------
-	trainable_params = [{'params': filter(lambda x: x.requires_grad, model.parameters()), 'lr': args.lr}]
-	optimizer = Adam(trainable_params, args.lr, weight_decay=0.9)
+	# END-TO-END: Include ALL parameters in optimizer
+	all_trainable_params = []
+	all_trainable_params.extend([{'params': model_auto_ir.parameters(), 'lr': args.lr}])  # IR encoder
+	all_trainable_params.extend([{'params': model_auto_vi.parameters(), 'lr': args.lr}])  # VIS encoder  
+	all_trainable_params.extend([{'params': model.parameters(), 'lr': args.lr}])          # CAM + decoder
+	
+	optimizer = Adam(all_trainable_params, args.lr, weight_decay=0.9)
+	print(f"   Optimizer includes {len(all_trainable_params)} parameter groups")
+	
 	# ------------------------------------------------------
 	gra_loss = Gradient_loss(custom_config['out_channels'])
 	order_loss = Order_loss(custom_config['out_channels'])
-	
+
 	# visdom
 	# viz = Visdom()
+
+	# Device management
+	device = torch.device('cuda' if args.cuda else 'cpu')
+	print(f"🖥️  Training device: {device}")
 	
 	if args.cuda:
 		model_auto_ir.cuda()
@@ -140,23 +151,28 @@ def train(data, img_flag):
 		model.cuda()
 		gra_loss.cuda()
 		order_loss.cuda()
-	
-	model_auto_ir.eval()
-	model_auto_vi.eval()
-	print('Start training.....')
-	
-	# creating save path
+		print(f"   Models moved to GPU: {torch.cuda.get_device_name(0)}")
+	else:
+		print("   Models running on CPU")
+
+	# END-TO-END: All models are trainable (no .eval())
+	model_auto_ir.train()  # ✅ TRAINABLE
+	model_auto_vi.train()  # ✅ TRAINABLE
+	model.train()          # ✅ TRAINABLE
+	print('Start END-TO-END training.....')
+
+	# creating save path - use different directory to distinguish from two-stage
 	temp_path_model1 = os.path.join(args.save_fusion_model)
 	if os.path.exists(temp_path_model1) is False:
 		os.mkdir(temp_path_model1)
-	temp_path_model = os.path.join(temp_path_model1, 'transfuse')
+	temp_path_model = os.path.join(temp_path_model1, 'end_to_end')
 	if os.path.exists(temp_path_model) is False:
 		os.mkdir(temp_path_model)
-	
+
 	temp_path_loss = os.path.join(temp_path_model, 'loss')
 	if os.path.exists(temp_path_loss) is False:
 		os.mkdir(temp_path_loss)
-	
+
 	loss_p4 = 0.
 	loss_p5 = 0.
 	loss_p6 = 0.
@@ -164,13 +180,15 @@ def train(data, img_flag):
 	loss_p8 = 0.
 	loss_p9 = 0.
 	loss_p10 = 0.
+	loss_p11 = 0.  # SSIM loss
 	loss_all = 0.
-	
+
 	loss_mat = []
 	model.train()
 	count = 0
 	for e in range(args.epochs):
-		lr_cur = utils.adjust_learning_rate(optimizer, e, args.lr)
+		# Use modern cosine annealing schedule instead of aggressive step decay
+		lr_cur = utils.cosine_annealing_lr(optimizer, e, args.lr, args.epochs, min_lr=1e-6)
 		img_paths, batch_num = utils.load_dataset(data, batch_size)
 		
 		for idx in range(batch_num):
@@ -190,9 +208,10 @@ def train(data, img_flag):
 				batch_ir = batch_ir.cuda()
 				batch_vi = batch_vi.cuda()
 			
-			with torch.no_grad():
-				ir_sh, ir_de = model_auto_ir(batch_ir)
-				vi_sh, vi_de = model_auto_vi(batch_vi)
+			# END-TO-END: Encoders are trainable - NO torch.no_grad()!
+			ir_sh, ir_de = model_auto_ir(batch_ir)  # ✅ GRADIENTS FLOW
+			vi_sh, vi_de = model_auto_vi(batch_vi)  # ✅ GRADIENTS FLOW
+			
 			# for DataParallel
 			outputs = model.train_module(batch_ir, batch_vi, ir_sh, vi_sh, ir_de, vi_de, shift_flag, gra_loss, order_loss)
 			
@@ -202,8 +221,8 @@ def train(data, img_flag):
 			middle_temp = outputs['middle_temp']
 			total_loss = outputs['total_loss']
 			loss_mat.append(total_loss.item())
-			total_loss.backward()
-			optimizer.step()
+			total_loss.backward()  # ✅ Gradients flow to ALL components
+			optimizer.step()       # ✅ Updates ALL parameters
 			
 			loss_p4 += outputs['pix_loss']
 			loss_p5 += outputs['sh_loss']
@@ -212,6 +231,7 @@ def train(data, img_flag):
 			loss_p8 += outputs['fea_loss']
 			loss_p9 += outputs['gra_loss']
 			loss_p10 += outputs['mean_loss']
+			loss_p11 += outputs['ssim_loss']
 			loss_all += total_loss
 			
 			# # Test
@@ -228,84 +248,43 @@ def train(data, img_flag):
 				loss_p8 /= step
 				loss_p9 /= step
 				loss_p10 /= step
-<<<<<<< HEAD
-				loss_all /= step
-				# if e == 0 and count == step:
-				# 	viz.line([loss_all.item()], [0.], win='train_loss', opts=dict(title='Total Loss'))
-				
-				mesg = "{} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
-				       " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
-				       "deep loss: {:.6f} - fea loss: {:.6f} \t total loss: {:.6f} \n". \
-					format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur,
-				           loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_all)
-				
-				# viz.line([loss_all.item()], [count], win='train_loss', update='append')
-				img_or1 = torch.cat((batch_ir[0, :, :, :], batch_vi[0, :, :, :]), 0)
-				img1 = torch.cat((img_or1, img_out[0, :, :, :]), 0)
-				# img_or2 = torch.cat((batch_ir[1, :, :, :], batch_vi[1, :, :, :]), 0)
-				# img2 = torch.cat((img_or2, img_out[1, :, :, :]), 0)
-				# viz.images(img1.view(-1, 1, args.Height, args.Width), win='x')
-				
-				ir_sa, vi_sa, ir_ca, vi_ca, c_fe = middle_temp[0], middle_temp[1], middle_temp[2], middle_temp[3], middle_temp[4]
-				img_fe = torch.cat((ir_sa[0, :, :, :], vi_sa[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, ir_ca[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, vi_ca[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, c_fe[0, :, :, :]), 0)
-				# viz.images(img_fe.view(-1, 1, args.Height, args.Width), win='y')
-				
-				weight = torch.cat((weights[0][0, :, :, :], weights[1][0, :, :, :]), 0)
-				weight_fuse = torch.cat((weight, weights[2][0, :, :, :]), 0)
-				# weight_fuse = torch.cat((weight_fuse, max_temp[0, :, :, :]), 0)
-				# viz.images(weight_fuse.view(-1, 1, args.Height, args.Width), win='z')
-				# viz.images(weights[3][0, :, :, :].view(-1, 1, args.Height, args.Width), win='z1')
-				
-				print(mesg)
-				loss_p4 = 0.
-				loss_p5 = 0.
-				loss_p6 = 0.
-				loss_p7 = 0.
-				loss_p8 = 0.
-				loss_p9 = 0.
-				loss_p10 = 0.
-				loss_all = 0.
-=======
 			loss_p11 /= step
 			loss_all /= step
 			# if e == 0 and count == step:
 			# 	viz.line([loss_all.item()], [0.], win='train_loss', opts=dict(title='Total Loss'))
 			
-					# 🔥 Collect ALL learnable temperatures (single + multi-head)
-		temp_values = []
-		multi_head_temps = []
-		
-		for module in model.modules():
-			if hasattr(module, 'temperature') and hasattr(module, 'cross') and module.cross:
-				# Single temperature (legacy)
-				temp_values.append(module.temperature.item())
-			elif hasattr(module, 'temperatures') and hasattr(module, 'cross') and module.cross:
-				# 🔥 Multi-head temperatures
-				temps = module.temperatures.data.cpu().numpy()
-				multi_head_temps.extend(temps)
-				temp_values.extend(temps)
-		
-		avg_temp = sum(temp_values) / len(temp_values) if temp_values else 1.0
-		
-		# 🔥 Log multi-head specialization every 5 print steps
-		if multi_head_temps and count % (step * 5) == 0:
-			print(f"\n🔥 Multi-Head Temperature Specialization:")
-			for i, temp in enumerate(multi_head_temps[:16]):  # First 16 heads
-				if temp < 0.7:
-					print(f"   Head {i:2d}: SHARP focus (temp={temp:.3f}) - Detail specialist")
-				elif temp > 1.3:
-					print(f"   Head {i:2d}: BROAD focus (temp={temp:.3f}) - Global specialist")
-				else:
-					print(f"   Head {i:2d}: Balanced focus (temp={temp:.3f}) - General fusion")
+			# 🔥 Collect ALL learnable temperatures (single + multi-head)
+			temp_values = []
+			multi_head_temps = []
 			
-			mesg = "🔄 2-Stage - {} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - avg_temp:{:.4f} - heads:{} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
-       " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
-       "deep loss: {:.6f} - fea loss: {:.6f} - ssim loss: {:.6f} \t total loss: {:.6f} \n". \
-    			format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur, avg_temp, len(multi_head_temps),
-			       loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_p11, loss_all)
+			for module in model.modules():
+				if hasattr(module, 'temperature') and hasattr(module, 'cross') and module.cross:
+					# Single temperature (legacy)
+					temp_values.append(module.temperature.item())
+				elif hasattr(module, 'temperatures') and hasattr(module, 'cross') and module.cross:
+					# 🔥 Multi-head temperatures
+					temps = module.temperatures.data.cpu().numpy()
+					multi_head_temps.extend(temps)
+					temp_values.extend(temps)
+			
+			avg_temp = sum(temp_values) / len(temp_values) if temp_values else 1.0
+			
+			# 🔥 Log multi-head specialization every 5 print steps
+			if multi_head_temps and count % (step * 5) == 0:
+				print(f"\n🔥 Multi-Head Temperature Specialization:")
+				for i, temp in enumerate(multi_head_temps[:16]):  # First 16 heads
+					if temp < 0.7:
+						print(f"   Head {i:2d}: SHARP focus (temp={temp:.3f}) - Detail specialist")
+					elif temp > 1.3:
+						print(f"   Head {i:2d}: BROAD focus (temp={temp:.3f}) - Global specialist")
+					else:
+						print(f"   Head {i:2d}: Balanced focus (temp={temp:.3f}) - General fusion")
+			
+			mesg = "🔄 E2E - {} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - avg_temp:{:.4f} - heads:{} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
+			       " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
+			       "deep loss: {:.6f} - fea loss: {:.6f} - ssim loss: {:.6f} \t total loss: {:.6f} \n". \
+				format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur, avg_temp, len(multi_head_temps),
+				       loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_p11, loss_all)
 
 			# viz.line([loss_all.item()], [count], win='train_loss', update='append')
 			img_or1 = torch.cat((batch_ir[0], batch_vi[0]), dim=0)
@@ -337,7 +316,6 @@ def train(data, img_flag):
 			loss_p10 = 0.
 			loss_p11 = 0.
 			loss_all = 0.
->>>>>>> bc7e1d2 (multihead)
 		
 		# with torch.no_grad():
 		# 	print('Start. Testing image data on epoch {}'.format(e + 1))
@@ -345,21 +323,48 @@ def train(data, img_flag):
 		# 	print('Done. Testing image data on epoch {}'.format(e + 1))
 		
 		# save loss
-		save_model_filename = 'loss_data_trans_e%d.mat' % (e)
+		save_model_filename = 'loss_data_end_to_end_e%d.mat' % (e)
 		loss_filename_path = os.path.join(temp_path_loss, save_model_filename)
 		scio.savemat(loss_filename_path, {'loss_data': loss_mat})
-		# save model
+		
+		# save model components separately for analysis
 		model.eval()
+		model_auto_ir.eval()
+		model_auto_vi.eval()
 		model.cpu()
-		save_model_filename = "fusetrans_epoch_" + str(e + 1) + ".model"
+		model_auto_ir.cpu()
+		model_auto_vi.cpu()
+		
+		# Save fusion model
+		save_model_filename = "end_to_end_fusion_epoch_" + str(e + 1) + ".model"
 		save_model_path = os.path.join(temp_path_model, save_model_filename)
 		torch.save(model.state_dict(), save_model_path)
+		
+		# Save encoder models (now they're trained for fusion!)
+		save_ir_filename = "end_to_end_ir_encoder_epoch_" + str(e + 1) + ".model"
+		save_ir_path = os.path.join(temp_path_model, save_ir_filename)
+		torch.save(model_auto_ir.state_dict(), save_ir_path)
+		
+		save_vi_filename = "end_to_end_vi_encoder_epoch_" + str(e + 1) + ".model"
+		save_vi_path = os.path.join(temp_path_model, save_vi_filename)
+		torch.save(model_auto_vi.state_dict(), save_vi_path)
+		
 		##############
 		model.train()
-		model.cuda()
-		print("\nCheckpoint, trained model saved at: " + save_model_path)
+		model_auto_ir.train()
+		model_auto_vi.train()
+		
+		if args.cuda:
+			model.cuda()
+			model_auto_ir.cuda()
+			model_auto_vi.cuda()
+		print(f"\n✅ E2E Checkpoint saved - Epoch {e+1}")
+		print(f"   Fusion: {save_model_path}")
+		print(f"   IR Enc: {save_ir_path}")
+		print(f"   VI Enc: {save_vi_path}")
 	
-	print("\nDone, TransFuse training phase.")
+	print("\n🎉 Done, END-TO-END training phase completed!")
+	print("   Encoders are now optimized specifically for fusion (not just reconstruction)")
 
 
 if __name__ == "__main__":
@@ -372,5 +377,13 @@ if __name__ == "__main__":
 	path = args.path_ir
 	train_num = args.train_num
 	data = load_data(path, train_num)
+	
+	print("🚀 Starting END-TO-END Training")
+	print(f"   Dataset: {len(data)} image pairs")
+	print(f"   Epochs: {args.epochs}")
+	print(f"   Batch size: {args.batch}")
+	print(f"   Learning rate: {args.lr}")
+	print(f"   Device: {'GPU' if args.cuda else 'CPU'}")
+	print("   Training ALL components together from scratch")
 	
 	train(data, img_flag)

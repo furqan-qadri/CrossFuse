@@ -129,6 +129,15 @@ class Attention(nn.Module):
         
         self.qkv = nn.Linear(dim, dim * 3, bias=qkv_bias)
         self.cross = cross
+<<<<<<< HEAD
+=======
+        
+        # 🔥 MULTI-HEAD Temperature Specialization - OPTIMIZED
+        if cross:
+            # Initialize per-head temperatures to 1.0 (same as original)
+            self.temperatures = nn.Parameter(torch.ones(n_heads))
+            print(f"🔥 Multi-Head Temperature Specialization: {n_heads} learnable temperatures initialized")
+>>>>>>> bc7e1d2 (multihead)
         if cross:
             self.q_linear = nn.Linear(dim, dim, bias=qkv_bias)
             self.k_linear = nn.Linear(dim, dim, bias=qkv_bias)
@@ -171,6 +180,17 @@ class Attention(nn.Module):
             # dp_s = dp.softmax(dim=-1)
             # vision_features(dp_s, 'atten', 'dp_'+str(t_str))
             dp = -1 * dp
+<<<<<<< HEAD
+=======
+            # 🔥 MULTI-HEAD Temperature - GPU OPTIMIZED (No Expansion)
+            # Most efficient: direct broadcasting without expand_as
+            # This avoids creating large intermediate tensors
+            dp_normalized = dp / self.temperatures.view(1, -1, 1, 1)
+            
+            attn = dp_normalized.softmax(dim=-1)
+            
+            attn = dp.softmax(dim=-1)  # (n_samples, n_heads, n_patches, n_patches)
+>>>>>>> bc7e1d2 (multihead)
             # attn = dp.softmax(dim=-1)
             # vision_features(attn, 'atten', 'dp_v_'+str(t_str))
         attn = dp.softmax(dim=-1)  # (n_samples, n_heads, n_patches, n_patches)
