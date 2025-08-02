@@ -7,12 +7,12 @@
 
 class Args():
 	# For training
-	path_ir = ['G:/datasets/Image-fusion/KAIST/lwir/']
-	path_ir = ['/Users/furqanqadri/Coding/CrossFuse/kaist_dataset/kaist_train/set00/V000/lwir/']
+	# path_ir = ['G:/datasets/Image-fusion/KAIST/lwir/']
+	path_ir = ['/uolstore/home/student_lnxhome01/fxlf1861/Downloads/CrossFuse/kaist_dataset/kaist_train/set00/V000/lwir']
 	# path_ir = ['/data/Disk_B/KAIST-RGBIR/lwir/']
-	cuda = False
+	cuda = True
 	lr = 0.001
-	epochs = 32
+	epochs = 16
 	batch = 8
 	train_num = 20000
 	step = 10

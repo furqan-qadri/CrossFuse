@@ -255,7 +255,7 @@ class Trans_FuseNet(nn.Module):
         loss_ssim_vi = 1 - ssim_loss(out, x_vi, normalize=True)
         loss_ssim_combined = 0.5 * (loss_ssim_ir + loss_ssim_vi)
 
-        w = [1.0, 10.0, 0.0, 1.0, 5000.0]  # Added SSIM weight
+        w = [1.0, 10.0, 0.0, 1.0, 1.0]  # Added SSIM weight
         total_loss = w[0] * loss_pix + w[1] * loss_gra + w[2] * loss_mean + w[3] * loss_fea + w[4] * loss_ssim_combined
         # -----------------------------------
         outputs = {'out': out,

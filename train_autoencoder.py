@@ -172,7 +172,7 @@ def train(data, img_flag):
 		# save model
 		model.eval()
 		model.cpu()
-		save_model_filename = "auto_encoder_epoch_" + str(e + 1) + "_" + args.type_flag + ".model"
+		save_model_filename = "new_auto_encoder_epoch_" + str(e + 1) + "_" + args.type_flag + ".model"
 		save_model_path = os.path.join(temp_path_model, save_model_filename)
 		torch.save(model.state_dict(), save_model_path)
 		##############

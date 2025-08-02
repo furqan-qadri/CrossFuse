@@ -60,7 +60,7 @@ def test(model_auto_ir, model_auto_vi, model_trans, shift_flag, ir_path, vi_path
     # # ---------------------------------------------
     
     # ---------------------------------------------
-    path_out = output_path + '/results_transfuse_'
+    path_out = output_path + '/new_results_transfuse_'
     if img_flag:
         utils.save_image_color(img_out, vi_cb, vi_cr, path_out + ir_name)
     else:
