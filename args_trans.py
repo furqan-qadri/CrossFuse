@@ -7,9 +7,9 @@
 
 class Args():
 	# For training
-	path_ir = ['G:/datasets/Image-fusion/KAIST/lwir/']
+	path_ir = ['kaist_dataset/kaist_train/set00/V000/lwir']
 	# path_ir = ['/data/Disk_B/KAIST-RGBIR/lwir/']
-	cuda = True
+	cuda = False
 	lr = 0.001
 	epochs = 32
 	batch = 8
@@ -24,8 +24,8 @@ class Args():
 	crop_w = 256
 
 	vgg_model_dir = "./models/vgg"
-	resume_model_auto_ir = "./models/autoencoder/auto_encoder_epoch_5_ir.model"
-	resume_model_auto_vi = "./models/autoencoder/auto_encoder_epoch_5_vi.model"
+	resume_model_auto_ir = "./models/autoencoder/auto_encoder_epoch_4_ir.model"
+	resume_model_auto_vi = "./models/autoencoder/auto_encoder_epoch_4_vi.model"
 	# resume_model_auto_ir = None
 	# resume_model_auto_vi = None
 
