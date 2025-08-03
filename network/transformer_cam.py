@@ -183,11 +183,9 @@ class Attention(nn.Module):
             dp_normalized = dp / self.temperatures.view(1, -1, 1, 1)
             
             attn = dp_normalized.softmax(dim=-1)
-            
-            attn = dp.softmax(dim=-1)  # (n_samples, n_heads, n_patches, n_patches)
-            # attn = dp.softmax(dim=-1)
             # vision_features(attn, 'atten', 'dp_v_'+str(t_str))
-        attn = dp.softmax(dim=-1)  # (n_samples, n_heads, n_patches, n_patches)
+        else:
+            attn = dp.softmax(dim=-1)  # (n_samples, n_heads, n_patches, n_patches)
         attn = self.attn_drop(attn)
 
         weighted_avg = attn @ v  # (n_samples, n_heads, n_patches +1, head_dim)

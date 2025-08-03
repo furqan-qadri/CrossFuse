@@ -9,7 +9,7 @@ class Args():
 	# For training
 	path_ir = ['kaist_dataset/kaist_train/set00/V000/lwir']
 	# path_ir = ['/data/Disk_B/KAIST-RGBIR/lwir/']
-	cuda = True  # 🔥 PERFORMANCE FIX: Enable GPU for multi-head temperature
+	cuda = False  # CPU training for demo
 	lr = 0.001
 	epochs = 32
 	batch = 8

@@ -164,6 +164,7 @@ def train(data, img_flag):
 	loss_p8 = 0.
 	loss_p9 = 0.
 	loss_p10 = 0.
+	loss_p11 = 0.
 	loss_all = 0.
 	
 	loss_mat = []
@@ -314,7 +315,8 @@ def train(data, img_flag):
 		torch.save(model.state_dict(), save_model_path)
 		##############
 		model.train()
-		model.cuda()
+		if args.cuda:
+			model.cuda()
 		print("\nCheckpoint, trained model saved at: " + save_model_path)
 	
 	print("\nDone, TransFuse training phase.")
