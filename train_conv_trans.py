@@ -243,6 +243,10 @@ def train(data, img_flag):
 					temp_values.append(module.temperature.item())
 			
 			avg_temp = sum(temp_values) / len(temp_values) if temp_values else 1.0
+
+			# Log individual temperature values for each cross-attention head
+			temp_str = ", ".join(f"{t:.4f}" for t in temp_values)
+			print(f"[Temps] {temp_str}")
 			
 			mesg = "{} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - temp:{:.4f} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
        " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
