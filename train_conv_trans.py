@@ -228,47 +228,6 @@ def train(data, img_flag):
 				loss_p8 /= step
 				loss_p9 /= step
 				loss_p10 /= step
-<<<<<<< HEAD
-				loss_all /= step
-				# if e == 0 and count == step:
-				# 	viz.line([loss_all.item()], [0.], win='train_loss', opts=dict(title='Total Loss'))
-				
-				mesg = "{} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
-				       " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
-				       "deep loss: {:.6f} - fea loss: {:.6f} \t total loss: {:.6f} \n". \
-					format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur,
-				           loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_all)
-				
-				# viz.line([loss_all.item()], [count], win='train_loss', update='append')
-				img_or1 = torch.cat((batch_ir[0, :, :, :], batch_vi[0, :, :, :]), 0)
-				img1 = torch.cat((img_or1, img_out[0, :, :, :]), 0)
-				# img_or2 = torch.cat((batch_ir[1, :, :, :], batch_vi[1, :, :, :]), 0)
-				# img2 = torch.cat((img_or2, img_out[1, :, :, :]), 0)
-				# viz.images(img1.view(-1, 1, args.Height, args.Width), win='x')
-				
-				ir_sa, vi_sa, ir_ca, vi_ca, c_fe = middle_temp[0], middle_temp[1], middle_temp[2], middle_temp[3], middle_temp[4]
-				img_fe = torch.cat((ir_sa[0, :, :, :], vi_sa[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, ir_ca[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, vi_ca[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, c_fe[0, :, :, :]), 0)
-				# viz.images(img_fe.view(-1, 1, args.Height, args.Width), win='y')
-				
-				weight = torch.cat((weights[0][0, :, :, :], weights[1][0, :, :, :]), 0)
-				weight_fuse = torch.cat((weight, weights[2][0, :, :, :]), 0)
-				# weight_fuse = torch.cat((weight_fuse, max_temp[0, :, :, :]), 0)
-				# viz.images(weight_fuse.view(-1, 1, args.Height, args.Width), win='z')
-				# viz.images(weights[3][0, :, :, :].view(-1, 1, args.Height, args.Width), win='z1')
-				
-				print(mesg)
-				loss_p4 = 0.
-				loss_p5 = 0.
-				loss_p6 = 0.
-				loss_p7 = 0.
-				loss_p8 = 0.
-				loss_p9 = 0.
-				loss_p10 = 0.
-				loss_all = 0.
-=======
 			loss_p11 /= step
 			loss_all /= step
 			# if e == 0 and count == step:
@@ -337,7 +296,6 @@ def train(data, img_flag):
 			loss_p10 = 0.
 			loss_p11 = 0.
 			loss_all = 0.
->>>>>>> bc7e1d2 (multihead)
 		
 		# with torch.no_grad():
 		# 	print('Start. Testing image data on epoch {}'.format(e + 1))
