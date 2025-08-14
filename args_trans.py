@@ -8,7 +8,7 @@
 class Args():
 	# For training
 	# path_ir = ['G:/datasets/Image-fusion/KAIST/lwir/']
-	path_ir = ['/uolstore/home/student_lnxhome01/fxlf1861/Downloads/CrossFuse/kaist_dataset/kaist_train/set00/V000/lwir']
+	path_ir = ['/vol/scratch/SoC/misc/2024/fxlf1861/kaist_dataset/kaist_train/set00/V000/lwir']
 	# path_ir = ['/data/Disk_B/KAIST-RGBIR/lwir/']
 	cuda = True
 	lr = 0.001
@@ -24,13 +24,13 @@ class Args():
 	crop_h = 256
 	crop_w = 256
 
-	vgg_model_dir = "./models/vgg"
-	resume_model_auto_ir = "./models/autoencoder/auto_encoder_epoch_4_ir.model"
-	resume_model_auto_vi = "./models/autoencoder/auto_encoder_epoch_4_vi.model"
+	vgg_model_dir = "/vol/scratch/SoC/misc/2024/fxlf1861/models/vgg"
+	resume_model_auto_ir = "/vol/scratch/SoC/misc/2024/fxlf1861/new_auto_encoder_epoch_4_vi.model"
+	resume_model_auto_vi = "/vol/scratch/SoC/misc/2024/fxlf1861/new_auto_encoder_epoch_4_ir.model"
 	# resume_model_auto_ir = None
 	# resume_model_auto_vi = None
 
 	# resume_model_trans = "./models/transfuse/fusetrans_epoch_4.model"
 	resume_model_trans = None
-	save_fusion_model = "./models"
-	save_loss_dir = "./models/loss"
+	save_fusion_model = "/vol/scratch/SoC/misc/2024/fxlf1861/models"
+	save_loss_dir = "/vol/scratch/SoC/misc/2024/fxlf1861/loss"

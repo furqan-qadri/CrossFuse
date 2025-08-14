@@ -10,8 +10,8 @@
 
 class Args():
 	# For training
-	path = ['/uolstore/home/student_lnxhome01/fxlf1861/Downloads/CrossFuse/kaist_dataset/kaist_train/set00/V000/lwir']
-	type_flag = 'ir' # or 'vi'
+	path = ['/vol/scratch/SoC/misc/2024/fxlf1861/kaist_dataset/kaist_train/set00/V000/lwir']
+	type_flag = 'vi' # or 'vi'
 	cuda = True
 	lr = 0.0001
 	epochs = 4
@@ -27,7 +27,7 @@ class Args():
 	crop_w = 256
 
 	resume_model_auto = None
-	save_auto_model = "./models/autoencoder"
+	save_auto_model = "/vol/scratch/SoC/misc/2024/fxlf1861"
 
 
 
