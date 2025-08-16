@@ -11,6 +11,8 @@ import os
 import scipy.io as scio
 import torch
 import time
+from datetime import datetime
+import logging
 # pytohn -m visdom.server
 # from visdom import Visdom
 
@@ -157,6 +159,31 @@ def train(data, img_flag):
 	if os.path.exists(temp_path_loss) is False:
 		os.mkdir(temp_path_loss)
 	
+	# Setup logging
+	logs_dir = os.path.join(temp_path_model, 'logs')
+	if os.path.exists(logs_dir) is False:
+		os.mkdir(logs_dir)
+	
+	timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+	log_filename = f"TransFuse_training_{timestamp}.log"
+	log_filepath = os.path.join(logs_dir, log_filename)
+	
+	# Configure logging
+	logging.basicConfig(
+		level=logging.INFO,
+		format='%(asctime)s - %(message)s',
+		handlers=[
+			logging.FileHandler(log_filepath),
+			logging.StreamHandler()  # Also print to console
+		]
+	)
+	
+	logger = logging.getLogger(__name__)
+	logger.info(f"CrossFuse Training Log - TransFuse")
+	logger.info(f"Started at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+	logger.info("=" * 80)
+	logger.info("")
+	
 	loss_p4 = 0.
 	loss_p5 = 0.
 	loss_p6 = 0.
@@ -168,11 +195,19 @@ def train(data, img_flag):
 	loss_all = 0.
 	
 	loss_mat = []
+	lr_log = []  # Track learning rates
 	model.train()
 	count = 0
 	for e in range(args.epochs):
+		epoch_start_time = time.time()
+		logger.info(f"Epoch {e+1}/{args.epochs} started at {datetime.now().strftime('%H:%M:%S')}")
+		logger.info("-" * 60)
+		
 		# Use modern cosine annealing schedule instead of aggressive step decay
 		lr_cur = utils.cosine_annealing_lr(optimizer, e, args.lr, args.epochs, min_lr=1e-6)
+		lr_log.append(lr_cur)  # Log current LR
+		logger.info(f"Learning Rate for Epoch {e+1}: {lr_cur:.6f}")
+		
 		img_paths, batch_num = utils.load_dataset(data, batch_size)
 		
 		for idx in range(batch_num):
@@ -237,32 +272,11 @@ def train(data, img_flag):
 				# 	viz.line([loss_all.item()], [0.], win='train_loss', opts=dict(title='Total Loss'))
 				
 				mesg = "{} - Epoch {}/{} - Batch {}/{} - lr:{:.6f} - pix loss: {:.6f} - gra loss: {:.6f} - mean loss:{:.6f}" \
-				       " - shallow loss: {:.6f} - middle loss: {:.6f}\n" \
-				       "deep loss: {:.6f} - fea loss: {:.6f} - ssim loss: {:.6f} \t total loss: {:.6f} \n". \
+				       " - shallow loss: {:.6f} - middle loss: {:.6f} - deep loss: {:.6f} - fea loss: {:.6f} - ssim loss: {:.6f} - total loss: {:.6f}". \
 					format(time.ctime(), e + 1, args.epochs, idx + 1, batch_num, lr_cur,
 				           loss_p4, loss_p9, loss_p10, loss_p5, loss_p6, loss_p7, loss_p8, loss_p11, loss_all)
 				
-				# viz.line([loss_all.item()], [count], win='train_loss', update='append')
-				img_or1 = torch.cat((batch_ir[0, :, :, :], batch_vi[0, :, :, :]), 0)
-				img1 = torch.cat((img_or1, img_out[0, :, :, :]), 0)
-				# img_or2 = torch.cat((batch_ir[1, :, :, :], batch_vi[1, :, :, :]), 0)
-				# img2 = torch.cat((img_or2, img_out[1, :, :, :]), 0)
-				# viz.images(img1.view(-1, 1, args.Height, args.Width), win='x')
-				
-				ir_sa, vi_sa, ir_ca, vi_ca, c_fe = middle_temp[0], middle_temp[1], middle_temp[2], middle_temp[3], middle_temp[4]
-				img_fe = torch.cat((ir_sa[0, :, :, :], vi_sa[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, ir_ca[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, vi_ca[0, :, :, :]), 0)
-				img_fe = torch.cat((img_fe, c_fe[0, :, :, :]), 0)
-				# viz.images(img_fe.view(-1, 1, args.Height, args.Width), win='y')
-				
-				weight = torch.cat((weights[0][0, :, :, :], weights[1][0, :, :, :]), 0)
-				weight_fuse = torch.cat((weight, weights[2][0, :, :, :]), 0)
-				# weight_fuse = torch.cat((weight_fuse, max_temp[0, :, :, :]), 0)
-				# viz.images(weight_fuse.view(-1, 1, args.Height, args.Width), win='z')
-				# viz.images(weights[3][0, :, :, :].view(-1, 1, args.Height, args.Width), win='z1')
-				
-				print(mesg)
+				logger.info(mesg)
 				loss_p4 = 0.
 				loss_p5 = 0.
 				loss_p6 = 0.
@@ -278,10 +292,17 @@ def train(data, img_flag):
 		# 	test(model_auto_ir, model_auto_vi, model, shift_flag, e + 1)
 		# 	print('Done. Testing image data on epoch {}'.format(e + 1))
 		
-		# save loss
+		# Log epoch completion
+		epoch_time = time.time() - epoch_start_time
+		logger.info(f"Epoch {e+1} completed in {epoch_time:.2f} seconds")
+		logger.info(f"Epoch {e+1} Summary: pix_loss: {loss_p4:.6f} - gra_loss: {loss_p9:.6f} - mean_loss: {loss_p10:.6f} - shallow_loss: {loss_p5:.6f} - middle_loss: {loss_p6:.6f} - deep_loss: {loss_p7:.6f} - fea_loss: {loss_p8:.6f} - ssim_loss: {loss_p11:.6f} - total_loss: {loss_all:.6f}")
+		logger.info("-" * 60)
+		logger.info("")
+		
+		# save loss and learning rate log
 		save_model_filename = 'loss_data_trans_e%d.mat' % (e)
 		loss_filename_path = os.path.join(temp_path_loss, save_model_filename)
-		scio.savemat(loss_filename_path, {'loss_data': loss_mat})
+		scio.savemat(loss_filename_path, {'loss_data': loss_mat, 'lr_log': lr_log})
 		# save model
 		model.eval()
 		model.cpu()
@@ -293,7 +314,11 @@ def train(data, img_flag):
 		model.cuda()
 		print("\nCheckpoint, trained model saved at: " + save_model_path)
 	
-	print("\nDone, TransFuse training phase.")
+	logger.info("=" * 80)
+	logger.info("Training completed successfully!")
+	logger.info(f"Final model saved at: {temp_path_model}")
+	logger.info(f"Training logs saved at: {log_filepath}")
+	logger.info("=" * 80)
 
 
 if __name__ == "__main__":

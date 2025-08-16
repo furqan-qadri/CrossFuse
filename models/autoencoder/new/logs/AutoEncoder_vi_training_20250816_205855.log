@@ -1,0 +1,148 @@
+CrossFuse Training Log - AutoEncoder_vi
+Started at: 2025-08-16 20:58:55
+================================================================================
+
+
+Epoch 1/4 started at 20:58:55
+------------------------------------------------------------
+20:58:56 - Epoch 1/4 - Batch 10/280 - lr:0.000100 - recon_loss: 426.848785 - ssim_loss: 540.698975 - total_loss: 967.547546
+20:58:57 - Epoch 1/4 - Batch 20/280 - lr:0.000100 - recon_loss: 164.736710 - ssim_loss: 280.432648 - total_loss: 445.169403
+20:58:58 - Epoch 1/4 - Batch 30/280 - lr:0.000100 - recon_loss: 107.022537 - ssim_loss: 220.146317 - total_loss: 327.168823
+20:58:59 - Epoch 1/4 - Batch 40/280 - lr:0.000100 - recon_loss: 99.661949 - ssim_loss: 186.840820 - total_loss: 286.502777
+20:59:01 - Epoch 1/4 - Batch 50/280 - lr:0.000100 - recon_loss: 85.760651 - ssim_loss: 162.519714 - total_loss: 248.280350
+20:59:02 - Epoch 1/4 - Batch 60/280 - lr:0.000100 - recon_loss: 76.259277 - ssim_loss: 149.235367 - total_loss: 225.494659
+20:59:03 - Epoch 1/4 - Batch 70/280 - lr:0.000100 - recon_loss: 66.835472 - ssim_loss: 128.204453 - total_loss: 195.039917
+20:59:04 - Epoch 1/4 - Batch 80/280 - lr:0.000100 - recon_loss: 76.674324 - ssim_loss: 131.783188 - total_loss: 208.457504
+20:59:05 - Epoch 1/4 - Batch 90/280 - lr:0.000100 - recon_loss: 70.472801 - ssim_loss: 121.687706 - total_loss: 192.160507
+20:59:06 - Epoch 1/4 - Batch 100/280 - lr:0.000100 - recon_loss: 69.668121 - ssim_loss: 113.245728 - total_loss: 182.913849
+20:59:08 - Epoch 1/4 - Batch 110/280 - lr:0.000100 - recon_loss: 61.890041 - ssim_loss: 103.446007 - total_loss: 165.336029
+20:59:09 - Epoch 1/4 - Batch 120/280 - lr:0.000100 - recon_loss: 56.906536 - ssim_loss: 96.155754 - total_loss: 153.062302
+20:59:10 - Epoch 1/4 - Batch 130/280 - lr:0.000100 - recon_loss: 64.341515 - ssim_loss: 98.253784 - total_loss: 162.595276
+20:59:11 - Epoch 1/4 - Batch 140/280 - lr:0.000100 - recon_loss: 57.844250 - ssim_loss: 91.226814 - total_loss: 149.071075
+20:59:12 - Epoch 1/4 - Batch 150/280 - lr:0.000100 - recon_loss: 58.920803 - ssim_loss: 87.499199 - total_loss: 146.419998
+20:59:14 - Epoch 1/4 - Batch 160/280 - lr:0.000100 - recon_loss: 47.262089 - ssim_loss: 77.251968 - total_loss: 124.514053
+20:59:15 - Epoch 1/4 - Batch 170/280 - lr:0.000100 - recon_loss: 47.618145 - ssim_loss: 74.530663 - total_loss: 122.148804
+20:59:16 - Epoch 1/4 - Batch 180/280 - lr:0.000100 - recon_loss: 47.302868 - ssim_loss: 71.393250 - total_loss: 118.696121
+20:59:17 - Epoch 1/4 - Batch 190/280 - lr:0.000100 - recon_loss: 53.060986 - ssim_loss: 73.690651 - total_loss: 126.751625
+20:59:18 - Epoch 1/4 - Batch 200/280 - lr:0.000100 - recon_loss: 44.141487 - ssim_loss: 64.420525 - total_loss: 108.562012
+20:59:19 - Epoch 1/4 - Batch 210/280 - lr:0.000100 - recon_loss: 44.934032 - ssim_loss: 63.865723 - total_loss: 108.799744
+20:59:21 - Epoch 1/4 - Batch 220/280 - lr:0.000100 - recon_loss: 41.522499 - ssim_loss: 59.433826 - total_loss: 100.956314
+20:59:22 - Epoch 1/4 - Batch 230/280 - lr:0.000100 - recon_loss: 44.448849 - ssim_loss: 61.799831 - total_loss: 106.248680
+20:59:23 - Epoch 1/4 - Batch 240/280 - lr:0.000100 - recon_loss: 35.408443 - ssim_loss: 53.014931 - total_loss: 88.423370
+20:59:24 - Epoch 1/4 - Batch 250/280 - lr:0.000100 - recon_loss: 39.644791 - ssim_loss: 54.924965 - total_loss: 94.569763
+20:59:25 - Epoch 1/4 - Batch 260/280 - lr:0.000100 - recon_loss: 39.840908 - ssim_loss: 52.964931 - total_loss: 92.805832
+20:59:26 - Epoch 1/4 - Batch 270/280 - lr:0.000100 - recon_loss: 37.418182 - ssim_loss: 50.858143 - total_loss: 88.276314
+20:59:28 - Epoch 1/4 - Batch 280/280 - lr:0.000100 - recon_loss: 37.641594 - ssim_loss: 49.215199 - total_loss: 86.856789
+
+Epoch 1 completed in 33.16 seconds
+Epoch 1 Summary: recon_loss: 0.000000 - ssim_loss: 0.000000 - total_loss: 0.000000
+------------------------------------------------------------
+
+Epoch 2/4 started at 20:59:28
+------------------------------------------------------------
+20:59:29 - Epoch 2/4 - Batch 10/280 - lr:0.000100 - recon_loss: 36.804958 - ssim_loss: 47.399937 - total_loss: 84.204895
+20:59:30 - Epoch 2/4 - Batch 20/280 - lr:0.000100 - recon_loss: 36.371197 - ssim_loss: 46.487568 - total_loss: 82.858772
+20:59:31 - Epoch 2/4 - Batch 30/280 - lr:0.000100 - recon_loss: 34.456573 - ssim_loss: 44.204475 - total_loss: 78.661057
+20:59:32 - Epoch 2/4 - Batch 40/280 - lr:0.000100 - recon_loss: 32.899216 - ssim_loss: 42.621136 - total_loss: 75.520355
+20:59:34 - Epoch 2/4 - Batch 50/280 - lr:0.000100 - recon_loss: 31.172667 - ssim_loss: 40.702641 - total_loss: 71.875305
+20:59:35 - Epoch 2/4 - Batch 60/280 - lr:0.000100 - recon_loss: 35.058949 - ssim_loss: 41.612743 - total_loss: 76.671700
+20:59:36 - Epoch 2/4 - Batch 70/280 - lr:0.000100 - recon_loss: 34.625362 - ssim_loss: 40.395973 - total_loss: 75.021332
+20:59:37 - Epoch 2/4 - Batch 80/280 - lr:0.000100 - recon_loss: 29.374729 - ssim_loss: 37.072483 - total_loss: 66.447205
+20:59:38 - Epoch 2/4 - Batch 90/280 - lr:0.000100 - recon_loss: 30.112564 - ssim_loss: 37.120876 - total_loss: 67.233452
+20:59:39 - Epoch 2/4 - Batch 100/280 - lr:0.000100 - recon_loss: 29.656713 - ssim_loss: 35.157978 - total_loss: 64.814690
+20:59:41 - Epoch 2/4 - Batch 110/280 - lr:0.000100 - recon_loss: 30.289387 - ssim_loss: 35.270214 - total_loss: 65.559593
+20:59:42 - Epoch 2/4 - Batch 120/280 - lr:0.000100 - recon_loss: 26.351856 - ssim_loss: 32.733204 - total_loss: 59.085060
+20:59:43 - Epoch 2/4 - Batch 130/280 - lr:0.000100 - recon_loss: 29.508734 - ssim_loss: 33.439339 - total_loss: 62.948071
+20:59:44 - Epoch 2/4 - Batch 140/280 - lr:0.000100 - recon_loss: 27.791193 - ssim_loss: 32.292965 - total_loss: 60.084148
+20:59:45 - Epoch 2/4 - Batch 150/280 - lr:0.000100 - recon_loss: 28.910095 - ssim_loss: 32.078327 - total_loss: 60.988422
+20:59:47 - Epoch 2/4 - Batch 160/280 - lr:0.000100 - recon_loss: 33.569817 - ssim_loss: 33.414845 - total_loss: 66.984657
+20:59:48 - Epoch 2/4 - Batch 170/280 - lr:0.000100 - recon_loss: 27.807020 - ssim_loss: 30.504286 - total_loss: 58.311317
+20:59:49 - Epoch 2/4 - Batch 180/280 - lr:0.000100 - recon_loss: 26.774519 - ssim_loss: 29.899832 - total_loss: 56.674355
+20:59:50 - Epoch 2/4 - Batch 190/280 - lr:0.000100 - recon_loss: 25.512943 - ssim_loss: 28.206348 - total_loss: 53.719288
+20:59:51 - Epoch 2/4 - Batch 200/280 - lr:0.000100 - recon_loss: 26.221231 - ssim_loss: 28.824865 - total_loss: 55.046108
+20:59:52 - Epoch 2/4 - Batch 210/280 - lr:0.000100 - recon_loss: 27.000996 - ssim_loss: 27.497892 - total_loss: 54.498882
+20:59:54 - Epoch 2/4 - Batch 220/280 - lr:0.000100 - recon_loss: 26.748737 - ssim_loss: 28.560642 - total_loss: 55.309376
+20:59:55 - Epoch 2/4 - Batch 230/280 - lr:0.000100 - recon_loss: 27.815113 - ssim_loss: 28.097452 - total_loss: 55.912563
+20:59:56 - Epoch 2/4 - Batch 240/280 - lr:0.000100 - recon_loss: 24.632261 - ssim_loss: 25.896906 - total_loss: 50.529171
+20:59:57 - Epoch 2/4 - Batch 250/280 - lr:0.000100 - recon_loss: 28.602680 - ssim_loss: 26.572886 - total_loss: 55.175556
+20:59:58 - Epoch 2/4 - Batch 260/280 - lr:0.000100 - recon_loss: 23.254719 - ssim_loss: 24.424257 - total_loss: 47.678970
+20:59:59 - Epoch 2/4 - Batch 270/280 - lr:0.000100 - recon_loss: 23.025862 - ssim_loss: 24.609745 - total_loss: 47.635605
+21:00:01 - Epoch 2/4 - Batch 280/280 - lr:0.000100 - recon_loss: 20.786991 - ssim_loss: 23.355366 - total_loss: 44.142353
+
+Epoch 2 completed in 33.00 seconds
+Epoch 2 Summary: recon_loss: 0.000000 - ssim_loss: 0.000000 - total_loss: 0.000000
+------------------------------------------------------------
+
+Epoch 3/4 started at 21:00:01
+------------------------------------------------------------
+21:00:02 - Epoch 3/4 - Batch 10/280 - lr:0.000010 - recon_loss: 21.914286 - ssim_loss: 23.773611 - total_loss: 45.687901
+21:00:03 - Epoch 3/4 - Batch 20/280 - lr:0.000010 - recon_loss: 21.890287 - ssim_loss: 23.973467 - total_loss: 45.863758
+21:00:04 - Epoch 3/4 - Batch 30/280 - lr:0.000010 - recon_loss: 24.354443 - ssim_loss: 24.210812 - total_loss: 48.565254
+21:00:05 - Epoch 3/4 - Batch 40/280 - lr:0.000010 - recon_loss: 23.740820 - ssim_loss: 24.926781 - total_loss: 48.667603
+21:00:07 - Epoch 3/4 - Batch 50/280 - lr:0.000010 - recon_loss: 26.343821 - ssim_loss: 25.994364 - total_loss: 52.338177
+21:00:08 - Epoch 3/4 - Batch 60/280 - lr:0.000010 - recon_loss: 22.245466 - ssim_loss: 23.452047 - total_loss: 45.697510
+21:00:09 - Epoch 3/4 - Batch 70/280 - lr:0.000010 - recon_loss: 25.590824 - ssim_loss: 24.482847 - total_loss: 50.073669
+21:00:10 - Epoch 3/4 - Batch 80/280 - lr:0.000010 - recon_loss: 24.077335 - ssim_loss: 24.363934 - total_loss: 48.441273
+21:00:11 - Epoch 3/4 - Batch 90/280 - lr:0.000010 - recon_loss: 25.426605 - ssim_loss: 24.437902 - total_loss: 49.864510
+21:00:13 - Epoch 3/4 - Batch 100/280 - lr:0.000010 - recon_loss: 24.588163 - ssim_loss: 24.463354 - total_loss: 49.051514
+21:00:14 - Epoch 3/4 - Batch 110/280 - lr:0.000010 - recon_loss: 24.385216 - ssim_loss: 24.476948 - total_loss: 48.862160
+21:00:15 - Epoch 3/4 - Batch 120/280 - lr:0.000010 - recon_loss: 23.071516 - ssim_loss: 23.906651 - total_loss: 46.978165
+21:00:16 - Epoch 3/4 - Batch 130/280 - lr:0.000010 - recon_loss: 22.358215 - ssim_loss: 23.966551 - total_loss: 46.324768
+21:00:18 - Epoch 3/4 - Batch 140/280 - lr:0.000010 - recon_loss: 21.720381 - ssim_loss: 23.834288 - total_loss: 45.554665
+21:00:19 - Epoch 3/4 - Batch 150/280 - lr:0.000010 - recon_loss: 23.577085 - ssim_loss: 24.749277 - total_loss: 48.326366
+21:00:20 - Epoch 3/4 - Batch 160/280 - lr:0.000010 - recon_loss: 24.865686 - ssim_loss: 24.882376 - total_loss: 49.748062
+21:00:21 - Epoch 3/4 - Batch 170/280 - lr:0.000010 - recon_loss: 21.704641 - ssim_loss: 23.603140 - total_loss: 45.307785
+21:00:22 - Epoch 3/4 - Batch 180/280 - lr:0.000010 - recon_loss: 22.473345 - ssim_loss: 22.869825 - total_loss: 45.343166
+21:00:24 - Epoch 3/4 - Batch 190/280 - lr:0.000010 - recon_loss: 24.095917 - ssim_loss: 24.108053 - total_loss: 48.203972
+21:00:25 - Epoch 3/4 - Batch 200/280 - lr:0.000010 - recon_loss: 23.107216 - ssim_loss: 23.516418 - total_loss: 46.623631
+21:00:26 - Epoch 3/4 - Batch 210/280 - lr:0.000010 - recon_loss: 22.793478 - ssim_loss: 23.252249 - total_loss: 46.045734
+21:00:27 - Epoch 3/4 - Batch 220/280 - lr:0.000010 - recon_loss: 24.592192 - ssim_loss: 23.879349 - total_loss: 48.471539
+21:00:28 - Epoch 3/4 - Batch 230/280 - lr:0.000010 - recon_loss: 20.511427 - ssim_loss: 22.104204 - total_loss: 42.615631
+21:00:29 - Epoch 3/4 - Batch 240/280 - lr:0.000010 - recon_loss: 24.639608 - ssim_loss: 25.429249 - total_loss: 50.068863
+21:00:31 - Epoch 3/4 - Batch 250/280 - lr:0.000010 - recon_loss: 20.005865 - ssim_loss: 22.080542 - total_loss: 42.086407
+21:00:32 - Epoch 3/4 - Batch 260/280 - lr:0.000010 - recon_loss: 24.731165 - ssim_loss: 23.686707 - total_loss: 48.417873
+21:00:33 - Epoch 3/4 - Batch 270/280 - lr:0.000010 - recon_loss: 23.138674 - ssim_loss: 23.649275 - total_loss: 46.787949
+21:00:34 - Epoch 3/4 - Batch 280/280 - lr:0.000010 - recon_loss: 23.478086 - ssim_loss: 24.431410 - total_loss: 47.909489
+
+Epoch 3 completed in 33.58 seconds
+Epoch 3 Summary: recon_loss: 0.000000 - ssim_loss: 0.000000 - total_loss: 0.000000
+------------------------------------------------------------
+
+Epoch 4/4 started at 21:00:34
+------------------------------------------------------------
+21:00:35 - Epoch 4/4 - Batch 10/280 - lr:0.000010 - recon_loss: 25.778809 - ssim_loss: 24.742188 - total_loss: 50.520992
+21:00:37 - Epoch 4/4 - Batch 20/280 - lr:0.000010 - recon_loss: 23.737333 - ssim_loss: 23.773849 - total_loss: 47.511181
+21:00:38 - Epoch 4/4 - Batch 30/280 - lr:0.000010 - recon_loss: 23.578808 - ssim_loss: 23.321867 - total_loss: 46.900673
+21:00:39 - Epoch 4/4 - Batch 40/280 - lr:0.000010 - recon_loss: 24.235937 - ssim_loss: 24.302366 - total_loss: 48.538300
+21:00:40 - Epoch 4/4 - Batch 50/280 - lr:0.000010 - recon_loss: 26.158447 - ssim_loss: 24.753092 - total_loss: 50.911541
+21:00:41 - Epoch 4/4 - Batch 60/280 - lr:0.000010 - recon_loss: 23.568247 - ssim_loss: 24.321795 - total_loss: 47.890045
+21:00:43 - Epoch 4/4 - Batch 70/280 - lr:0.000010 - recon_loss: 22.259195 - ssim_loss: 22.886156 - total_loss: 45.145351
+21:00:44 - Epoch 4/4 - Batch 80/280 - lr:0.000010 - recon_loss: 22.046915 - ssim_loss: 22.728203 - total_loss: 44.775120
+21:00:45 - Epoch 4/4 - Batch 90/280 - lr:0.000010 - recon_loss: 21.791559 - ssim_loss: 22.110167 - total_loss: 43.901722
+21:00:46 - Epoch 4/4 - Batch 100/280 - lr:0.000010 - recon_loss: 21.356482 - ssim_loss: 21.273256 - total_loss: 42.629738
+21:00:47 - Epoch 4/4 - Batch 110/280 - lr:0.000010 - recon_loss: 20.695238 - ssim_loss: 22.098244 - total_loss: 42.793484
+21:00:49 - Epoch 4/4 - Batch 120/280 - lr:0.000010 - recon_loss: 24.357130 - ssim_loss: 23.690762 - total_loss: 48.047894
+21:00:50 - Epoch 4/4 - Batch 130/280 - lr:0.000010 - recon_loss: 19.532705 - ssim_loss: 21.917286 - total_loss: 41.449989
+21:00:51 - Epoch 4/4 - Batch 140/280 - lr:0.000010 - recon_loss: 23.836063 - ssim_loss: 23.436010 - total_loss: 47.272072
+21:00:52 - Epoch 4/4 - Batch 150/280 - lr:0.000010 - recon_loss: 20.618389 - ssim_loss: 21.995962 - total_loss: 42.614349
+21:00:53 - Epoch 4/4 - Batch 160/280 - lr:0.000010 - recon_loss: 21.580587 - ssim_loss: 22.993567 - total_loss: 44.574154
+21:00:55 - Epoch 4/4 - Batch 170/280 - lr:0.000010 - recon_loss: 22.925482 - ssim_loss: 23.068073 - total_loss: 45.993553
+21:00:56 - Epoch 4/4 - Batch 180/280 - lr:0.000010 - recon_loss: 21.416250 - ssim_loss: 22.271397 - total_loss: 43.687649
+21:00:57 - Epoch 4/4 - Batch 190/280 - lr:0.000010 - recon_loss: 22.348717 - ssim_loss: 23.087980 - total_loss: 45.436695
+21:00:58 - Epoch 4/4 - Batch 200/280 - lr:0.000010 - recon_loss: 21.329296 - ssim_loss: 22.350906 - total_loss: 43.680202
+21:00:59 - Epoch 4/4 - Batch 210/280 - lr:0.000010 - recon_loss: 22.857016 - ssim_loss: 22.517740 - total_loss: 45.374752
+21:01:01 - Epoch 4/4 - Batch 220/280 - lr:0.000010 - recon_loss: 21.688770 - ssim_loss: 22.245527 - total_loss: 43.934296
+21:01:02 - Epoch 4/4 - Batch 230/280 - lr:0.000010 - recon_loss: 20.522955 - ssim_loss: 21.752001 - total_loss: 42.274952
+21:01:03 - Epoch 4/4 - Batch 240/280 - lr:0.000010 - recon_loss: 24.208008 - ssim_loss: 23.344873 - total_loss: 47.552887
+21:01:04 - Epoch 4/4 - Batch 250/280 - lr:0.000010 - recon_loss: 22.515106 - ssim_loss: 21.983147 - total_loss: 44.498253
+21:01:06 - Epoch 4/4 - Batch 260/280 - lr:0.000010 - recon_loss: 24.276272 - ssim_loss: 23.508610 - total_loss: 47.784878
+21:01:07 - Epoch 4/4 - Batch 270/280 - lr:0.000010 - recon_loss: 23.718222 - ssim_loss: 22.870899 - total_loss: 46.589119
+21:01:08 - Epoch 4/4 - Batch 280/280 - lr:0.000010 - recon_loss: 22.039017 - ssim_loss: 22.796515 - total_loss: 44.835529
+
+Epoch 4 completed in 33.78 seconds
+Epoch 4 Summary: recon_loss: 0.000000 - ssim_loss: 0.000000 - total_loss: 0.000000
+------------------------------------------------------------
+
+Training completed in 0.00 seconds
+Log saved to: ./models/autoencoder/new/logs/AutoEncoder_vi_training_20250816_205855.log
+================================================================================

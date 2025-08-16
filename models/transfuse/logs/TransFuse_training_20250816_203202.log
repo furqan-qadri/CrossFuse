@@ -1,0 +1,11 @@
+CrossFuse Training Log - TransFuse
+Started at: 2025-08-16 20:32:02
+================================================================================
+
+
+Epoch 1/5 started at 20:32:02
+------------------------------------------------------------
+20:32:05 - Epoch 1/5 - Batch 10/280 - lr:0.001000 - pix_loss: 6416.155273 - gra_loss: 1752.828979 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 2136.558838 - total_loss: 10305.542969
+20:32:09 - Epoch 1/5 - Batch 20/280 - lr:0.001000 - pix_loss: 5361.500977 - gra_loss: 1413.967773 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 2156.069092 - total_loss: 8931.538086
+20:32:12 - Epoch 1/5 - Batch 30/280 - lr:0.001000 - pix_loss: 5165.804199 - gra_loss: 1469.451050 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 2098.803467 - total_loss: 8734.058594
+20:32:15 - Epoch 1/5 - Batch 40/280 - lr:0.001000 - pix_loss: 4861.976074 - gra_loss: 1832.709229 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 2060.792725 - total_loss: 8755.477539
