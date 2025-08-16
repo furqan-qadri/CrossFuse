@@ -23,6 +23,7 @@ from network.net_autoencoder import Auto_Encoder_single
 from network.loss import Gradient_loss, Order_loss, Patch_loss
 
 from args_trans import Args as args
+from temperature_tracker import integrate_temperature_tracking
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # -------------------------------------------------------
@@ -170,6 +171,10 @@ def train(data, img_flag):
 	loss_mat = []
 	model.train()
 	count = 0
+	
+	# 🔥 Initialize temperature tracker
+	temp_tracker = None
+	
 	for e in range(args.epochs):
 		lr_cur = utils.adjust_learning_rate(optimizer, e, args.lr)
 		img_paths, batch_num = utils.load_dataset(data, batch_size)
@@ -303,6 +308,9 @@ def train(data, img_flag):
 		# 	test(model_auto_ir, model_auto_vi, model, shift_flag, e + 1)
 		# 	print('Done. Testing image data on epoch {}'.format(e + 1))
 		
+		# 🔥 Track temperature specialization at end of each epoch
+		temp_tracker = integrate_temperature_tracking(model, e + 1, temp_tracker)
+		
 		# save loss
 		save_model_filename = 'loss_data_trans_e%d.mat' % (e)
 		loss_filename_path = os.path.join(temp_path_loss, save_model_filename)
@@ -318,6 +326,10 @@ def train(data, img_flag):
 		if args.cuda:
 			model.cuda()
 		print("\nCheckpoint, trained model saved at: " + save_model_path)
+	
+	# 🔥 Save final temperature tracking summary
+	if temp_tracker is not None:
+		temp_tracker.save_final_summary()
 	
 	print("\nDone, TransFuse training phase.")
 
