@@ -168,6 +168,7 @@ def train(data, img_flag):
 	loss_all = 0.
 	
 	loss_mat = []
+	epoch_temperatures = []  # Just store [epoch, avg_temp]
 	model.train()
 	count = 0
 	for e in range(args.epochs):
@@ -294,6 +295,22 @@ def train(data, img_flag):
 		save_model_filename = 'loss_data_trans_e%d.mat' % (e)
 		loss_filename_path = os.path.join(temp_path_loss, save_model_filename)
 		scio.savemat(loss_filename_path, {'loss_data': loss_mat})
+		
+		# ADD: Save epoch temperature
+		temp_values = []
+		for module in model.modules():
+			if hasattr(module, 'temperature') and hasattr(module, 'cross') and module.cross:
+				temp_values.append(module.temperature.item())
+		avg_temp = sum(temp_values) / len(temp_values) if temp_values else 1.0
+		epoch_temperatures.append([e + 1, avg_temp])
+
+		# Save temperature data
+		temp_file = os.path.join(temp_path_loss, 'temperature_log.txt')
+		with open(temp_file, 'w') as f:
+			f.write("Epoch,Temperature\n")
+			for epoch, temp in epoch_temperatures:
+				f.write(f"{epoch},{temp:.6f}\n")
+		
 		# save model
 		model.eval()
 		model.cpu()
