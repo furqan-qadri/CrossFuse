@@ -24,6 +24,7 @@ from network.net_autoencoder import Auto_Encoder_single
 
 from args_auto import Args as args
 from training_dynamics import TrainingDynamicsTracker
+from tools.logger import TrainingLogger
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # -------------------------------------------------------
@@ -94,9 +95,18 @@ def train(data, img_flag):
 		model_name=f"AutoEncoder_{args.type_flag}"
 	)
 	
+	# Initialize training logger
+	logger = TrainingLogger(
+		log_dir=os.path.join(temp_path_model, 'logs'),
+		model_name=f"AutoEncoder_{args.type_flag}"
+	)
+	
 	model.train()
 	count = 0
 	for e in range(args.epochs):
+		# Log epoch start
+		logger.log_epoch_start(e + 1, args.epochs)
+		
 		lr_cur = utils.adjust_learning_rate(optimizer, e, args.lr)
 		img_paths, batch_num = utils.load_dataset(data, batch_size)
 		
@@ -171,6 +181,18 @@ def train(data, img_flag):
 				# viz.images(weights[3][0, :, :, :].view(-1, 1, args.Height, args.Width), win='z1')
 				
 				print(mesg)
+				
+				# Log to file
+				logger.log_batch(
+					e + 1, args.epochs, idx + 1, batch_num,
+					{
+						'recon_loss': loss_p4,
+						'ssim_loss': loss_p5,
+						'total_loss': loss_all
+					},
+					lr=lr_cur
+				)
+				
 				loss_p4 = 0.
 				loss_p5 = 0.
 				loss_all = 0.
@@ -195,10 +217,21 @@ def train(data, img_flag):
 		if args.cuda:
 			model.cuda()
 		print("\nCheckpoint, trained model saved at: " + save_model_path)
+		
+		# Log epoch end
+		logger.log_epoch_end(e + 1, args.epochs, {
+			'recon_loss': loss_p4,
+			'ssim_loss': loss_p5,
+			'total_loss': loss_all
+		})
 	
 	# Generate training dynamics analysis at the end
 	print("\nGenerating training dynamics analysis...")
 	dynamics_tracker.generate_training_report(save=True)
+	
+	# Close logger and log training end
+	logger.log_training_end(0)  # You can calculate actual training time if needed
+	logger.close()
 	
 	print("\nDone, AutoEncoder training phase.")
 

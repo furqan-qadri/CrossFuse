@@ -10,11 +10,12 @@
 
 class Args():
 	# For training
-	path = ['kaist_dataset/kaist_train/set00/V000/lwir_copy']
+	path = ['kaist_dataset/kaist_train/set00/V000/lwir']
 	type_flag = 'ir' # or 'vi'
-	cuda = False
+	# cuda = False
+	cuda = True
 	lr = 0.0001
-	epochs = 1
+	epochs = 4
 	batch = 2
 	step = 10
 	w = [1.0, 10000.0, 0.1, 1.0]

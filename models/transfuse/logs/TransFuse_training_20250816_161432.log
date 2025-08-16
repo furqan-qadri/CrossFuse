@@ -1,0 +1,39 @@
+CrossFuse Training Log - TransFuse
+Started at: 2025-08-16 16:14:32
+================================================================================
+
+
+Epoch 1/1 started at 16:14:32
+------------------------------------------------------------
+16:14:35 - Epoch 1/1 - Batch 10/280 - lr:0.001000 - pix_loss: 5907.878906 - gra_loss: 1746.041992 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 4364.667969 - total_loss: 12018.589844
+16:14:39 - Epoch 1/1 - Batch 20/280 - lr:0.001000 - pix_loss: 5216.740723 - gra_loss: 1716.288086 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 4094.791748 - total_loss: 11027.820312
+16:14:42 - Epoch 1/1 - Batch 30/280 - lr:0.001000 - pix_loss: 5131.632812 - gra_loss: 1494.467407 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3969.276611 - total_loss: 10595.376953
+16:14:45 - Epoch 1/1 - Batch 40/280 - lr:0.001000 - pix_loss: 4914.944824 - gra_loss: 1554.782837 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3952.607422 - total_loss: 10422.335938
+16:14:49 - Epoch 1/1 - Batch 50/280 - lr:0.001000 - pix_loss: 4262.971191 - gra_loss: 1620.612183 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3793.601318 - total_loss: 9677.184570
+16:14:52 - Epoch 1/1 - Batch 60/280 - lr:0.001000 - pix_loss: 3612.945801 - gra_loss: 1517.566650 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3692.859863 - total_loss: 8823.372070
+16:14:56 - Epoch 1/1 - Batch 70/280 - lr:0.001000 - pix_loss: 3167.718506 - gra_loss: 1457.504150 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3604.755615 - total_loss: 8229.977539
+16:14:59 - Epoch 1/1 - Batch 80/280 - lr:0.001000 - pix_loss: 2893.110107 - gra_loss: 1509.828003 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3442.923096 - total_loss: 7845.860840
+16:15:03 - Epoch 1/1 - Batch 90/280 - lr:0.001000 - pix_loss: 1976.304565 - gra_loss: 1448.553589 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3451.705811 - total_loss: 6876.563477
+16:15:06 - Epoch 1/1 - Batch 100/280 - lr:0.001000 - pix_loss: 2313.615234 - gra_loss: 1482.761230 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3438.953857 - total_loss: 7235.330566
+16:15:09 - Epoch 1/1 - Batch 110/280 - lr:0.001000 - pix_loss: 1796.448242 - gra_loss: 1468.293335 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3415.375732 - total_loss: 6680.117188
+16:15:13 - Epoch 1/1 - Batch 120/280 - lr:0.001000 - pix_loss: 1801.146851 - gra_loss: 1524.996948 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3302.643799 - total_loss: 6628.787598
+16:15:16 - Epoch 1/1 - Batch 130/280 - lr:0.001000 - pix_loss: 2811.059814 - gra_loss: 1516.694214 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3388.784424 - total_loss: 7716.537598
+16:15:20 - Epoch 1/1 - Batch 140/280 - lr:0.001000 - pix_loss: 1628.288574 - gra_loss: 1412.458618 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3349.966553 - total_loss: 6390.713867
+16:15:23 - Epoch 1/1 - Batch 150/280 - lr:0.001000 - pix_loss: 1429.499756 - gra_loss: 1633.856812 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3435.425049 - total_loss: 6498.781250
+16:15:26 - Epoch 1/1 - Batch 160/280 - lr:0.001000 - pix_loss: 1694.059570 - gra_loss: 1578.373413 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3336.142334 - total_loss: 6608.575684
+16:15:30 - Epoch 1/1 - Batch 170/280 - lr:0.001000 - pix_loss: 1514.228149 - gra_loss: 1262.098389 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3151.115967 - total_loss: 5927.442383
+16:15:33 - Epoch 1/1 - Batch 180/280 - lr:0.001000 - pix_loss: 1011.561951 - gra_loss: 1563.640625 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3199.072266 - total_loss: 5774.274414
+16:15:37 - Epoch 1/1 - Batch 190/280 - lr:0.001000 - pix_loss: 1459.304810 - gra_loss: 1562.578979 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3191.499756 - total_loss: 6213.383789
+16:15:40 - Epoch 1/1 - Batch 200/280 - lr:0.001000 - pix_loss: 1150.725220 - gra_loss: 1359.644531 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3048.155518 - total_loss: 5558.525391
+16:15:43 - Epoch 1/1 - Batch 210/280 - lr:0.001000 - pix_loss: 1362.800049 - gra_loss: 1572.064087 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3215.276611 - total_loss: 6150.140137
+16:15:47 - Epoch 1/1 - Batch 220/280 - lr:0.001000 - pix_loss: 1141.461060 - gra_loss: 1342.852905 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3130.497559 - total_loss: 5614.812012
+16:15:50 - Epoch 1/1 - Batch 230/280 - lr:0.001000 - pix_loss: 872.366211 - gra_loss: 1534.145630 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3039.587646 - total_loss: 5446.099121
+16:15:54 - Epoch 1/1 - Batch 240/280 - lr:0.001000 - pix_loss: 1421.018799 - gra_loss: 1550.009155 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3164.002441 - total_loss: 6135.030273
+16:15:57 - Epoch 1/1 - Batch 250/280 - lr:0.001000 - pix_loss: 932.331055 - gra_loss: 1447.060669 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3143.681641 - total_loss: 5523.073730
+16:16:00 - Epoch 1/1 - Batch 260/280 - lr:0.001000 - pix_loss: 1007.257446 - gra_loss: 1368.513916 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3078.940430 - total_loss: 5454.712402
+16:16:04 - Epoch 1/1 - Batch 270/280 - lr:0.001000 - pix_loss: 1519.867798 - gra_loss: 1372.614380 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3171.448242 - total_loss: 6063.930664
+16:16:07 - Epoch 1/1 - Batch 280/280 - lr:0.001000 - pix_loss: 1647.422729 - gra_loss: 1430.233765 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 3153.998291 - total_loss: 6231.654297
+
+Epoch 1 completed in 96.27 seconds
+Epoch 1 Summary: pix_loss: 0.000000 - gra_loss: 0.000000 - mean_loss: 0.000000 - shallow_loss: 0.000000 - middle_loss: 0.000000 - deep_loss: 0.000000 - fea_loss: 0.000000 - ssim_loss: 0.000000 - total_loss: 0.000000
+------------------------------------------------------------

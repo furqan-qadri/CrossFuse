@@ -24,6 +24,7 @@ from network.loss import Gradient_loss, Order_loss, Patch_loss
 
 from args_trans import Args as args
 from training_dynamics import TrainingDynamicsTracker
+from tools.logger import TrainingLogger
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # -------------------------------------------------------
@@ -176,9 +177,18 @@ def train(data, img_flag):
 		model_name="TransFuse"
 	)
 	
+	# Initialize training logger
+	logger = TrainingLogger(
+		log_dir=os.path.join(temp_path_model, 'logs'),
+		model_name="TransFuse"
+	)
+	
 	model.train()
 	count = 0
 	for e in range(args.epochs):
+		# Log epoch start
+		logger.log_epoch_start(e + 1, args.epochs)
+		
 		lr_cur = utils.adjust_learning_rate(optimizer, e, args.lr)
 		img_paths, batch_num = utils.load_dataset(data, batch_size)
 		
@@ -283,6 +293,24 @@ def train(data, img_flag):
 				# viz.images(weights[3][0, :, :, :].view(-1, 1, args.Height, args.Width), win='z1')
 				
 				print(mesg)
+				
+				# Log to file
+				logger.log_batch(
+					e + 1, args.epochs, idx + 1, batch_num,
+					{
+						'pix_loss': loss_p4,
+						'gra_loss': loss_p9,
+						'mean_loss': loss_p10,
+						'shallow_loss': loss_p5,
+						'middle_loss': loss_p6,
+						'deep_loss': loss_p7,
+						'fea_loss': loss_p8,
+						'ssim_loss': loss_p11,
+						'total_loss': loss_all
+					},
+					lr=lr_cur
+				)
+				
 				loss_p4 = 0.
 				loss_p5 = 0.
 				loss_p6 = 0.
@@ -312,10 +340,27 @@ def train(data, img_flag):
 		model.train()
 		model.cuda()
 		print("\nCheckpoint, trained model saved at: " + save_model_path)
+		
+		# Log epoch end
+		logger.log_epoch_end(e + 1, args.epochs, {
+			'pix_loss': loss_p4,
+			'gra_loss': loss_p9,
+			'mean_loss': loss_p10,
+			'shallow_loss': loss_p5,
+			'middle_loss': loss_p6,
+			'deep_loss': loss_p7,
+			'fea_loss': loss_p8,
+			'ssim_loss': loss_p11,
+			'total_loss': loss_all
+		})
 	
 	# Generate training dynamics analysis at the end
 	print("\nGenerating training dynamics analysis...")
 	dynamics_tracker.generate_training_report(save=True)
+	
+	# Close logger and log training end
+	logger.log_training_end(0)  # You can calculate actual training time if needed
+	logger.close()
 	
 	print("\nDone, TransFuse training phase.")
 
