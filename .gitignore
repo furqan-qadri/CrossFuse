@@ -1,2 +1,4 @@
 /kaist_dataset
 /images
+/models
+models/autoencoder/new/new_auto_encoder_epoch_1_ir.model

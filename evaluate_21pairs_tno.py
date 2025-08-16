@@ -26,7 +26,7 @@ class BatchFusionEvaluator:
         # Dataset paths
         self.ir_dir = "./images/21_pairs_tno/ir"
         self.vis_dir = "./images/21_pairs_tno/vis"
-        self.fused_dir = "./output/crossfuse_test/21_pairs_tno_transfuse"
+        self.fused_dir = "./output/crossfuse_test/"
         self.results_dir = "./evaluation_results_21pairs"
         
         # Create results directory

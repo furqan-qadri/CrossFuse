@@ -11,6 +11,7 @@ import os
 import scipy.io as scio
 import torch
 import time
+from datetime import datetime
 # pytohn -m visdom.server
 # from visdom import Visdom
 
@@ -171,16 +172,17 @@ def train(data, img_flag):
 	
 	loss_mat = []
 	
-	# Initialize training dynamics tracker
+	# Initialize training dynamics tracker with timestamp
+	timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 	dynamics_tracker = TrainingDynamicsTracker(
 		save_path=os.path.join(temp_path_model, 'training_dynamics'),
-		model_name="TransFuse"
+		model_name=f"TransFuse_{timestamp}"
 	)
 	
-	# Initialize training logger
+	# Initialize training logger with timestamp
 	logger = TrainingLogger(
 		log_dir=os.path.join(temp_path_model, 'logs'),
-		model_name="TransFuse"
+		model_name=f"TransFuse_{timestamp}"
 	)
 	
 	model.train()

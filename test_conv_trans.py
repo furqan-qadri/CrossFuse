@@ -60,7 +60,7 @@ def test(model_auto_ir, model_auto_vi, model_trans, shift_flag, ir_path, vi_path
     # # ---------------------------------------------
     
     # ---------------------------------------------
-    path_out = output_path + '/new_results_transfuse_'
+    path_out = output_path + '/new_results_transfuse'
     if img_flag:
         utils.save_image_color(img_out, vi_cb, vi_cr, path_out + ir_name)
     else:
@@ -98,8 +98,9 @@ if __name__ == "__main__":
         "attn_p": 0.,
     }
     
-    resume_model_auto_ir = "./models/autoencoder/auto_encoder_epoch_4_ir.model"
-    resume_model_auto_vi = "./models/autoencoder/auto_encoder_epoch_4_vi.model"
+    resume_model_auto_ir = "/vol/scratch/SoC/misc/2024/fxlf1861/new_models/new_auto_encoder_epoch_4_ir.model"
+    resume_model_auto_vi = "/vol/scratch/SoC/misc/2024/fxlf1861/new_models/new_auto_encoder_epoch_4_vi.model"
+    # resume_model_auto_vi = "./models/autoencoder/auto_encoder_epoch_4_vi.model"
     
     data_type = ['21_pairs_tno', '40_vot_tno', 'M3FD_Fusion']
     d_type = data_type[0]
@@ -116,8 +117,8 @@ if __name__ == "__main__":
     model_type = ['s1_c1'] # s1_c1
     for m_type in model_type:
         print('model type: ', m_type)
-        model_path_trans = "./models/transfuse/fusetrans_epoch_32_bs_8_num_20k_lr_0.1_"+ m_type +".model"
-        # ----------------------------------------------------
+        model_path_trans = "/vol/scratch/SoC/misc/2024/fxlf1861/new_models/transfuse/new_fusetrans_epoch_4.model"
+        # --------------------------------new_results_transfuse--------------------
         data_type_file = '/'+ d_type + '_transfuse'
         
         # ---------------------------------------------------
