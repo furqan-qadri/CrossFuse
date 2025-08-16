@@ -23,6 +23,7 @@ from torch.autograd import Variable
 from network.net_autoencoder import Auto_Encoder_single
 
 from args_auto import Args as args
+from training_dynamics import TrainingDynamicsTracker
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # -------------------------------------------------------
@@ -86,6 +87,13 @@ def train(data, img_flag):
 	loss_all = 0.
 	
 	loss_mat = []
+	
+	# Initialize training dynamics tracker
+	dynamics_tracker = TrainingDynamicsTracker(
+		save_path=os.path.join(temp_path_model, 'training_dynamics'),
+		model_name=f"AutoEncoder_{args.type_flag}"
+	)
+	
 	model.train()
 	count = 0
 	for e in range(args.epochs):
@@ -118,6 +126,13 @@ def train(data, img_flag):
 			loss_p4 += outputs['recon_loss']
 			loss_p5 += outputs['ssim_loss']
 			loss_all += total_loss
+			
+			# Update training dynamics tracker
+			dynamics_tracker.update_losses(
+				recon_loss=outputs['recon_loss'],
+				ssim_loss=outputs['ssim_loss'],
+				total_loss=total_loss
+			)
 			
 			# # Test
 			# if count % 1000 == 0:
@@ -177,10 +192,15 @@ def train(data, img_flag):
 		torch.save(model.state_dict(), save_model_path)
 		##############
 		model.train()
-		model.cuda()
+		if args.cuda:
+			model.cuda()
 		print("\nCheckpoint, trained model saved at: " + save_model_path)
 	
-	print("\nDone, TransFuse training phase.")
+	# Generate training dynamics analysis at the end
+	print("\nGenerating training dynamics analysis...")
+	dynamics_tracker.generate_training_report(save=True)
+	
+	print("\nDone, AutoEncoder training phase.")
 
 
 if __name__ == "__main__":

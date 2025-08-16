@@ -10,11 +10,11 @@
 
 class Args():
 	# For training
-	path = ['/uolstore/home/student_lnxhome01/fxlf1861/Downloads/CrossFuse/kaist_dataset/kaist_train/set00/V000/lwir']
+	path = ['kaist_dataset/kaist_train/set00/V000/lwir_copy']
 	type_flag = 'ir' # or 'vi'
-	cuda = True
+	cuda = False
 	lr = 0.0001
-	epochs = 4
+	epochs = 1
 	batch = 2
 	step = 10
 	w = [1.0, 10000.0, 0.1, 1.0]
@@ -27,7 +27,7 @@ class Args():
 	crop_w = 256
 
 	resume_model_auto = None
-	save_auto_model = "./models/autoencoder"
+	save_auto_model = "./models/autoencoder/new"
 
 
 

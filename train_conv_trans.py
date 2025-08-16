@@ -23,6 +23,7 @@ from network.net_autoencoder import Auto_Encoder_single
 from network.loss import Gradient_loss, Order_loss, Patch_loss
 
 from args_trans import Args as args
+from training_dynamics import TrainingDynamicsTracker
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # -------------------------------------------------------
@@ -168,6 +169,13 @@ def train(data, img_flag):
 	loss_all = 0.
 	
 	loss_mat = []
+	
+	# Initialize training dynamics tracker
+	dynamics_tracker = TrainingDynamicsTracker(
+		save_path=os.path.join(temp_path_model, 'training_dynamics'),
+		model_name="TransFuse"
+	)
+	
 	model.train()
 	count = 0
 	for e in range(args.epochs):
@@ -215,6 +223,19 @@ def train(data, img_flag):
 			loss_p10 += outputs['mean_loss']
 			loss_p11 += outputs['ssim_loss']
 			loss_all += total_loss
+			
+			# Update training dynamics tracker
+			dynamics_tracker.update_losses(
+				pix_loss=outputs['pix_loss'],
+				sh_loss=outputs['sh_loss'],
+				mi_loss=outputs['mi_loss'],
+				de_loss=outputs['de_loss'],
+				fea_loss=outputs['fea_loss'],
+				gra_loss=outputs['gra_loss'],
+				mean_loss=outputs['mean_loss'],
+				ssim_loss=outputs['ssim_loss'],
+				total_loss=total_loss
+			)
 			
 			# # Test
 			# if count % 1000 == 0:
@@ -291,6 +312,10 @@ def train(data, img_flag):
 		model.train()
 		model.cuda()
 		print("\nCheckpoint, trained model saved at: " + save_model_path)
+	
+	# Generate training dynamics analysis at the end
+	print("\nGenerating training dynamics analysis...")
+	dynamics_tracker.generate_training_report(save=True)
 	
 	print("\nDone, TransFuse training phase.")
 

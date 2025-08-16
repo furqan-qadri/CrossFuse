@@ -10,7 +10,7 @@ class Args():
 	# path_ir = ['G:/datasets/Image-fusion/KAIST/lwir/']
 	path_ir = ['/uolstore/home/student_lnxhome01/fxlf1861/Downloads/CrossFuse/kaist_dataset/kaist_train/set00/V000/lwir']
 	# path_ir = ['/data/Disk_B/KAIST-RGBIR/lwir/']
-	cuda = True
+	cuda = False
 	lr = 0.001
 	epochs = 16
 	batch = 8
